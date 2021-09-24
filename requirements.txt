@@ -1,4 +1,3 @@
-asgiref==3.4.1
 blinker==1.4
 catfish==1.4.13
 certifi==2019.11.28
