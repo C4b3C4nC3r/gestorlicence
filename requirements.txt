@@ -25,7 +25,6 @@ Markdown==3.1.1
 MarkupSafe==1.1.0
 monotonic==1.5
 netifaces==0.10.4
-nftables==0.1
 oauthlib==3.1.0
 openshot-qt==2.4.3
 packaging==20.3
