@@ -1,0 +1,39 @@
+{% extends 'licence/base.html' %}
+
+{% block contenido %}
+    <!--SERVIRA PARA PODER CREAR CLIENTES Y SUCCESIVAMENTE LAS LICENCIAS DE ESTOS MISMOS -->
+    <form action= "{% url 'nuevocliente' %}" method="POST" class="row g-3 ">
+        {% csrf_token %}
+        <div class="col-md-12">
+            <label for="validationCustom01" class="form-label">Names</label>
+            <input type="text" class="form-control" name="name"  id="validationCustom01" required>
+            
+        </div>
+        <div class="col-md-12">
+            <label for="validationCustom02" class="form-label">Last Names</label>
+            <input type="text" class="form-control" name="last_name" id="validationCustom02" required>
+            
+        </div>
+        <div class="col-md-12">
+            <label for="validationCustomUsername" class="form-label">NCI</label>
+            <input type="text" class="form-control" name="nci" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+        </div>
+        <div class="col-md-12">
+            <label for="validationCustomUsername" class="form-label">Number Phone</label>
+            <input type="text" class="form-control" name="number_phone" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+        </div>
+        <div class="col-md-12">
+            <label for="validationCustomUsername" class="form-label">E-mail</label>
+            <input type="text" class="form-control" name="email" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+        </div>
+        <div class="col-md-12">
+            <label for="validationCustomUsername" class="form-label">URL Client Page Web </label>
+            <input type="text" class="form-control" name="url_client" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+        </div>
+        
+        <hr>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+    </form>
+{% endblock contenido %}

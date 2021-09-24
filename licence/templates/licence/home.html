@@ -1,0 +1,273 @@
+{% extends 'licence/base.html' %}
+
+{% block contenido %}
+      <form action="{% url 'index' %}" class="d-flex" method="GET">
+        
+        <input class="form-control me-2" type="search" name="filtro" value="{{filtro}}" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
+                        <th>CONTACTO CELULAR</th>
+                        <th>CONTACTO EMAIL</th>
+                        <th>CEDULA DE IDENTIDAD</th>
+                        <th>URL PAGINA WEB</th>
+                        <th>ESTADO LICENCIA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in all_Clients %}
+                        
+                        <tr>
+                            <td>{{client.id}}</td>
+                            <td>{{client.name}}</td>
+                            <td>{{client.last_name}}</td>
+                            <td>{{client.number_phone}}</td>
+                            <td>{{client.email}}</td>
+                            <td>{{client.nci}}</td>
+                            <td>{{client.url_client}}</td>
+                            <td>
+                                  {% if client.licences.all %}
+                                    <!--ELIMINAR LICENCIA-->
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminar-{{client.id}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </button>
+                                    <!--REVISAR-->
+                                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#revisar-{{client.id}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#generar-{{client.id}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                            <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                                            <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                        </svg>
+                                    </button>
+                                {% else %}
+                                    <!--GENERAR LICENCIA-->
+                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#generar-{{client.id}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                            <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                                            <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                        </svg>
+                                    </button>
+                                    <!--AGREGAR LICENCIA-->
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add-{{client.id}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-node-plus-fill" viewBox="0 0 16 16">
+                                          <path d="M11 13a5 5 0 1 0-4.975-5.5H4A1.5 1.5 0 0 0 2.5 6h-1A1.5 1.5 0 0 0 0 7.5v1A1.5 1.5 0 0 0 1.5 10h1A1.5 1.5 0 0 0 4 8.5h2.025A5 5 0 0 0 11 13zm.5-7.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </button>
+                                    
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <!-- Modal -->
+<div class="modal fade" id="eliminar-{{client.id}}" tabindex="-1" aria-labelledby="eliminar-{{client.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminar-{{client.id}}Label">Remover esta Licencia?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    
+        <div class="modal-body">
+          <form action= "{% url 'removeLicence' %}" method="POST">
+          {% csrf_token %}
+        <input hidden name="client_id" value="{{client.id}}">
+          <div class="col-md-12">
+              <label class="form-label">Remover Licencia</label>
+              <select class="form-select" name="codelicence_id" required >
+                <option value="">Elija la Licencia Que desea Remover</option>
+                {% for licences in client.licences.all %}         
+                  <option value="{{licences.id}}">{{licences.hash_licence}}</option>
+                {% endfor %}
+                <option value="0">Remover Todas las Licencias</option>
+
+              </select>
+          </div>
+          Recuerde que eliminar esta licencia, conlleva a que no se podra activar el software en el dominio {{client.url_client}}, y tendra que generar nuevamente la licencia,
+          esto puede ocasionar problemas de ACTIVACION DEL PRODUCTO
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="generar-{{client.id}}" tabindex="-1" aria-labelledby="generar-{{client.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="generar-{{client.id}}Label">Generar una Licencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Recuerde que generar una licencia, conlleva  activar el software en el dominio {{client.url_client}}, y tendra que gestionar con el Cliente,
+        por medio de : {{client.email}} o por medio de {{client.number_phone}}, para lograr activar el software del dominio {{client.url_client}}
+        EXITOSAMENTE
+        <form action= "{% url 'generarLicence' %}" method="POST">
+          {% csrf_token %}
+          
+          <div class="col-md-12">
+              <label for="validationCustom01" class="form-label">Duration Licence</label>
+              <select class="form-select" name="type_licence" >
+                <option value="">Tiempo de Duracion</option>
+                <option value="0">Six Months</option>
+                <option value="1">One Years</option>
+              </select>
+          </div>
+          <div class="col-md-12">
+              <label for="validationCustom01" class="form-label">Creation Licence</label>
+              <input type="datetime-local" class="form-control" name="create_at"  id="validationCustom01" required>
+          </div>
+          <div class="col-md-12">
+              <label for="validationCustom01" class="form-label">End Licence</label>
+              <input type="datetime-local" class="form-control" name="date_rem"  id="validationCustom01" required>
+          </div>
+        </div>
+        <input hidden name="client_id" value = {{client.id}}>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="add-{{client.id}}" tabindex="-1" aria-labelledby="add-{{client.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add-{{client.id}}Label">Agregar una Licencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Recuerde que agregar una licencia, conlleva  activar el software en el dominio {{client.url_client}}, y tendra que gestionar con el Cliente,
+        por medio de : {{client.email}} o por medio de {{client.number_phone}}, para lograr activar el software del dominio {{client.url_client}}
+        EXITOSAMENTE
+        <form action= "{% url 'addLicence' %}" method="POST">
+          {% csrf_token %}
+          
+          <div class="col-md-12">
+              <label class="form-label">Agregar Licencia</label>
+              <select class="form-select" name="codelicence_id" required >
+                <option value="">Elija la Licencia Que desea Agregar</option>
+                {% for licence in all_Licences %}         
+                  <option value="{{licence.id}}">{{licence.hash_licence}}-<b>Duration: </b> 
+                    {% if licence.type_licence == 0 %}
+                        <!--6 meses es igual a 0-->                    
+                      6 Months                    
+                    {% else %}
+                        <!--12 meses es igual a 1-->
+                      12 Months                    
+                    {% endif %}</option>
+                {% endfor %}
+              </select>
+          </div>
+          
+        </div>
+        <input hidden name="client_id" value = {{client.id}}>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="revisar-{{client.id}}" tabindex="-1" aria-labelledby="revisar-{{client.id}}Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="revisar-{{client.id}}Label">Revisar esta Licencia?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item"><b>URL Page Web Client</b> {{client.url_client}}</li>
+          <li class="list-group-item"><b>LICENCE</b> 
+          <div class="accordion" id="accordionExample">
+            {% for licences in client.licences.all %}
+              <!---ACCORDION-->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{licences.id}}">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collap{{licences.id}}" aria-expanded="true" aria-controls="collap{{licences.id}}">
+                    INFO LICENCE {{licences.id}}
+                  </button>
+                </h2>
+                <div id="collap{{licences.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{licences.id}}" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p>
+                      <strong>HASH LICENCIA</strong> {{licences.hash_licence}}                  
+                    </p>
+                    <p>
+                      <strong>CREATE AT</strong> {{licences.create_at}}                  
+                    </p>
+                    <p>
+                      <strong>REMOVE LICENCE AT</strong>  {{licences.date_rem}}
+                    </p>
+                    <p>
+                      <strong>DURATION LICENCE AT REMOVE</strong>
+                      {% if licences.type_licence == 0 %}
+                        <!--6 meses es igual a 0-->                    
+                        6 Months                    
+                      {% else %}
+                        <!--12 meses es igual a 1-->
+                        12 Months                    
+                      {% endif %}
+
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!---FIN ACCORDION-->
+            {% endfor %}  
+            </div>
+
+          </li>
+          <li class="list-group-item"><b>E-MAIL</b> {{client.email}}</li>
+          <li class="list-group-item"><b>NUMBER PHONE</b> {{client.number_phone}}</li>
+          <li class="list-group-item"><b>NAME & LAST NAME</b> {{client.name}}  {{client.last_name}}</li>
+        </ul>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+        </div>
+
+{% endblock contenido %}
+
+
+
+
+
