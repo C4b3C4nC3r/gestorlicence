@@ -23,7 +23,6 @@ lockfile==0.12.2
 Mako==1.1.0
 Markdown==3.1.1
 MarkupSafe==1.1.0
-menulibre==2.2.1
 monotonic==1.5
 mugshot==0.4.2
 netifaces==0.10.4
