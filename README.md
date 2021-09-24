@@ -1,0 +1,2 @@
+# gestorlicence
+Django Getsor LICECE
