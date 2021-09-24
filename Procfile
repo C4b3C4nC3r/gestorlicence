@@ -1,0 +1,1 @@
+web: gunicorn gestorlicence.wsgi
