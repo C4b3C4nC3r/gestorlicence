@@ -9,6 +9,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
+import random
+import string
 
 
 url_api = 'http://127.0.0.1:8000/'
@@ -70,7 +72,10 @@ def createCodeLicence (request):
         nci = client.nci
         url_client = client.url_client
 
-        codelicence = 'ABB-155ASDA-66515ASD-ASD'
+        uno = random_char(5);
+        dos = random_char(8);
+
+        codelicence =uno+'-'+nci+'-'+dos
         #fin
         type_licence = request.POST['type_licence']
         create_at = request.POST['create_at']
@@ -166,3 +171,5 @@ class ClientView(View):
 
 
 
+def random_char(y):
+    return ''.join(random.choice(string.ascii_letters) for x in range(y))
