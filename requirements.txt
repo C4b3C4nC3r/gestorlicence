@@ -26,7 +26,6 @@ MarkupSafe==1.1.0
 monotonic==1.5
 netifaces==0.10.4
 oauthlib==3.1.0
-openshot-qt==2.4.3
 packaging==20.3
 PAM==0.4.2
 pexpect==4.6.0
